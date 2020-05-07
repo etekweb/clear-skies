@@ -56,6 +56,9 @@ export default {
       }
     },
     setLocationWithGPS() {
+      this.zip = "";
+      this.city = "Getting Location..."
+      this.state = "";
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           this.city = "Current Location";
@@ -63,6 +66,7 @@ export default {
         });
       } else {
         alert("Geolocation is not supported by this browser.");
+        this.city = "";
       }
     },
     getWeatherData(lat, long) {
