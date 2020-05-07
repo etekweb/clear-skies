@@ -2,16 +2,16 @@
   <div class="home">
     <div class="start">
       Enter ZIP Code:
-      <input @keypress.enter="setLocationWithZIP" v-model="zip" />
+      <input type="number" @keypress.enter="setLocationWithZIP" v-model="zip" />
       <div @click="setLocationWithZIP" class="submit">Submit</div>
       <div @click="setLocationWithGPS" class="submit">Use GPS Instead</div>
     </div>
-    <div>{{city}}{{state ? ', ' + state : ''}}</div>
+    <div class="location">{{city}}{{state ? ', ' + state : ''}}</div>
     <div class="time-wrap">
-      <div v-for="(hour, index) of hourly" class="timeRow" :key="index">
-        <span>{{convertTime(hour.startTime)}}</span>
-        <span>{{hour.temperature}}℉</span>
-        <span>{{hour.shortForecast}}</span>
+      <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
+        <span class="time">{{convertTime(hour.startTime)}}</span>
+        <span class="temp">{{hour.temperature}}℉</span>
+        <span class="forecast">{{hour.shortForecast}}</span>
       </div>
     </div>
   </div>
@@ -33,6 +33,14 @@ export default {
       hourly: []
     };
   },
+  computed: {
+    hourlyToday() {
+      if (this.hourly) {
+        return this.hourly.slice(0, 12);
+      }
+      return [];
+    }
+  },
   methods: {
     setLocationWithZIP() {
       const location = zipcodes.lookup(this.zip);
@@ -41,6 +49,7 @@ export default {
         this.city = location.city;
         this.state = location.state;
         this.getWeatherData(location.latitude, location.longitude);
+        document.activeElement.blur();
       } else {
         alert("Please enter a valid ZIP code.");
       }
@@ -97,6 +106,9 @@ export default {
 </script>
 
 <style scoped>
+.start {
+  line-height: 32px;
+}
 .submit {
   /* height: 50px; */
   display: inline;
@@ -105,16 +117,34 @@ export default {
   /* display: table-cell;
   vertical-align: middle; */
   cursor: pointer;
+  user-select: none;
   margin: 0 8px;
   padding: 0 4px;
+  white-space: nowrap;
+}
+.location {
+  margin: 8px 0 16px 0;
 }
 .time-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 .timeRow {
   display: grid;
-  grid-template-columns: 80px 40px 250px;
+  grid-template-columns: 1fr 40px 1fr;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+.timeRow .time {
+  text-align: right;
+}
+.timeRow .temp {
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.timeRow .forecast {
+  text-align: left;
 }
 </style>
