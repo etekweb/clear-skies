@@ -77,27 +77,9 @@ export default {
       if (direction === "") {
         return "";
       }
-      const head = Math.round(direction / 45);
-      switch (head) {
-        case 2:
-          return "→";
-        case 6:
-          return "←";
-        case 0:
-          return "↑";
-        case 4:
-          return "↓";
-        case 3:
-          return "↘︎";
-        case 7:
-          return "↖︎";
-        case 1:
-          return "↗︎";
-        case 5:
-          return "↙︎";
-        default:
-          return "—";
-      }
+      var val = Math.floor((direction / 22.5) + 0.5);
+      var arr = ["↑", "↑", "↗︎", "→", "→", "→", "↘︎", "↓", "↓", "↓", "↙︎", "←", "←", "←", "↖︎", "↑"];
+      return arr[(val % 16)];
     },
     downfallIcon(temp) {
       if (temp > 32) {
