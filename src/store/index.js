@@ -11,10 +11,22 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   state: {
     locations: [],
+    currentLocation: {}
   },
   mutations: {
     addLocation(state, payload) {
-      state.locations.push(payload);
+      if (payload.useGPS) {
+        state.locations.unshift(payload);
+      } else {
+        state.locations.push(payload);
+      }
+    },
+    removeLocation(state, payload) {
+      const i = state.locations.indexOf(payload);
+      state.locations.splice(i, 1);
+    },
+    setCurrentLocation(state, payload) {
+      state.currentLocation = payload;
     }
   },
   actions: {

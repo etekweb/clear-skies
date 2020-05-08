@@ -5,14 +5,17 @@
         <div
           v-for="(location, index) of $store.state.locations"
           class="btn"
-          :class="{selected: currentLocation === location}"
-          @click="setLocation(location)"
+          :class="{selected: location.name === $store.state.currentLocation.name}"
+          @click="$emit('setLocation', location)"
           :key="index"
-        >{{location.name}}</div>
+        >
+          {{location.name}}
+          <div class="delete" v-if="showLocationSettings" @click.stop="removeLocation(location)">x</div>
+        </div>
       </div>
-      <div class="btn" @click="showAddLocationForm = !showAddLocationForm">+</div>
+      <div class="settings btn" @click="toggleLocationSettings">⚙</div>
     </div>
-    <div class="add-location" v-if="showAddLocationForm">
+    <div class="add-location" v-if="showLocationSettings">
       Enter ZIP Code:
       <input type="number" @keypress.enter="addLocationWithZIP" v-model="zip" />
       <div @click="addLocationWithZIP" class="btn">Submit</div>
@@ -25,13 +28,10 @@
 import zipcodes from "zipcodes";
 
 export default {
-  props: {
-    currentLocation: Object,
-  },
   data() {
     return {
       zip: "",
-      showAddLocationForm: true
+      showLocationSettings: true
     };
   },
   methods: {
@@ -43,7 +43,7 @@ export default {
         location.lat = res.latitude;
         location.long = res.longitude;
         this.$store.commit("addLocation", location);
-        this.setLocation(location);
+        this.$emit('setLocation', location);
         this.zip = "";
         document.activeElement.blur();
       } else {
@@ -55,12 +55,22 @@ export default {
       const location = {};
       location.name = "Current Location";
       location.useGPS = true;
-      this.$store.commit("addLocation", location);
-      this.setLocation(location);
+      // Only add if GPS is not already added
+      if (this.$store.state.locations.findIndex(obj => obj.name === location.name) === -1) {
+        this.$store.commit("addLocation", location);
+        this.$emit('setLocation', location);
+      }
     },
-    setLocation(location) {
-      this.$emit("setLocation", location);
-      this.showAddLocationForm = false;
+    removeLocation(location) {
+      this.$store.commit("removeLocation", location);
+      if (location === this.$store.state.currentLocation) {
+        this.$emit('setLocation', this.$store.state.locations[0]);
+      }
+    },
+    toggleLocationSettings() {
+      if (Object.keys(this.$store.state.currentLocation).length !== 0) {
+        this.showLocationSettings = !this.showLocationSettings;
+      }
     }
   }
 };
@@ -91,8 +101,24 @@ export default {
   margin: 0 8px;
   padding: 0 4px;
   white-space: nowrap;
+  position: relative;
 }
 .btn.selected {
   text-decoration: underline;
+}
+.settings.btn {
+  font-size: 16px;
+}
+.delete {
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 0px;
+  right: -8px;
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  line-height: 16px;
 }
 </style>

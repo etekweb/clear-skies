@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <LocationList @setLocation="setLocation" :currentLocation="currentLocation" />
+    <LocationList
+      @setLocation="setLocation"
+      @unsetLocation="reset"
+    />
     <div class="time-wrap">
       <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
         <span class="time">{{convertTime(hour.startTime)}}</span>
@@ -21,17 +24,9 @@ export default {
   },
   data() {
     return {
-      currentLocation: {},
       props: {},
       forecast: [],
-      hourly: [],
-      locations: [
-        {
-          name: "Cloquet, MN",
-          lat: 47.1234,
-          long: -69.42
-        }
-      ]
+      hourly: []
     };
   },
   computed: {
@@ -44,7 +39,10 @@ export default {
   },
   methods: {
     setLocation(location) {
-      this.currentLocation = location;
+      this.$store.commit('setCurrentLocation', location);
+      this.props = {};
+      this.forecast = [];
+      this.hourly = [];
       if (location.useGPS) {
         this.setLocationWithGPS(location);
       } else {
@@ -98,6 +96,18 @@ export default {
       }
       // Return proper date/time string
       return d.getMonth() + "/" + d.getDate() + " " + hour + tod;
+    },
+    reset() {
+      this.$store.commit('setCurrentLocation', {});
+      this.props = {};
+      this.forecast = [];
+      this.hourly = [];
+    }
+  },
+  mounted() {
+    const location = this.$store.state.currentLocation;
+    if (location && Object.keys(location).length > 0) {
+      this.setLocation(location);
     }
   }
 };
