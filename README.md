@@ -4,7 +4,7 @@
 
 ## About
 
-Simple Weather is an in-development web app that makes checking the weather as easy as it sounds. 
+Simple Weather is a web app that makes checking the weather as easy as it sounds. 
 
 - Simple, clean interface with no ads
 - Loads and updates fast
@@ -14,6 +14,8 @@ Simple Weather is an in-development web app that makes checking the weather as e
 ## Usage
 
 Current version: [Click here](https://etekweb.github.io/simple-weather)
+
+Note: If you have accessed this web app before, be sure to clear your cache. This ensures you are using the latest version.
 
 ## Development
 
