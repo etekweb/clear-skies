@@ -20,6 +20,10 @@
       <input type="number" @keypress.enter="addLocationWithZIP" v-model="zip" />
       <div @click="addLocationWithZIP" class="btn">Submit</div>
       <div @click="addLocationWithGPS" class="btn">Use GPS Instead</div>
+      <div>
+        Data sources: NWS and
+        <a href="https://sunrise-sunset.org/" target="_blank">https://sunrise-sunset.org/</a>
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +47,7 @@ export default {
         location.lat = res.latitude;
         location.long = res.longitude;
         this.$store.commit("addLocation", location);
-        this.$emit('setLocation', location);
+        this.$emit("setLocation", location);
         this.zip = "";
         document.activeElement.blur();
         this.toggleLocationSettings();
@@ -57,16 +61,20 @@ export default {
       location.name = "Current Location";
       location.useGPS = true;
       // Only add if GPS is not already added
-      if (this.$store.state.locations.findIndex(obj => obj.name === location.name) === -1) {
+      if (
+        this.$store.state.locations.findIndex(
+          obj => obj.name === location.name
+        ) === -1
+      ) {
         this.$store.commit("addLocation", location);
-        this.$emit('setLocation', location);
+        this.$emit("setLocation", location);
         this.toggleLocationSettings();
       }
     },
     removeLocation(location) {
       this.$store.commit("removeLocation", location);
       if (location === this.$store.state.currentLocation) {
-        this.$emit('setLocation', this.$store.state.locations[0]);
+        this.$emit("setLocation", this.$store.state.locations[0]);
       }
     },
     toggleLocationSettings() {

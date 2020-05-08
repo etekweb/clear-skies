@@ -19,7 +19,8 @@ export default {
     return {
       props: {},
       forecast: [],
-      hourly: []
+      hourly: [],
+      sun: {}
     };
   },
   methods: {
@@ -63,6 +64,19 @@ export default {
             .catch(errThr => {
               alert(errThr);
             });
+        })
+        .catch(err => {
+          alert(err);
+        });
+      Axios.get(
+        "https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + long
+      )
+        .then(res => {
+          if (res.data.status === "OK") {
+            this.sun = res.data.results;
+          } else {
+            alert("Sunrise/sunset data error: " + res.data.status);
+          }
         })
         .catch(err => {
           alert(err);
