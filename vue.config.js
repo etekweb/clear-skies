@@ -9,6 +9,10 @@ module.exports = {
       msTileColor: '#4A90E2',
       manifestOptions: {
         background_color: '#4A90E2'
+      },
+      workboxPluginMode: 'InjectManifest',
+      workboxOptions: {
+        swSrc: 'service-worker.js'
       }
     },
 
