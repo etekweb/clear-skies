@@ -1,10 +1,10 @@
-# Simple Weather
+# clearSkies
 
 **In development, not yet complete.**
 
 ## About
 
-Simple Weather is a web app that makes checking the weather as easy as it sounds. 
+clearSkies is a web app that makes checking the weather as easy as it sounds. 
 
 - Simple, clean interface with no ads
 - Loads and updates fast
@@ -13,7 +13,7 @@ Simple Weather is a web app that makes checking the weather as easy as it sounds
 
 ## Usage and Installation
 
-Live site: [Click here](https://etekweb.github.io/simple-weather)
+Live site: [Click here](https://etekweb.github.io/clear-skies)
 
 Note: To ensure you have the latest version, if you've visited the site before, "hard reload" and/or clear your cache. You can do this on a computer by pressing `CTRL + SHIFT + R` while on the live site above. Instructions to do this on mobile are in the "Updating" section below.
 

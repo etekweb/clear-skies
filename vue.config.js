@@ -1,10 +1,10 @@
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
-    ? '/simple-weather/'
+    ? '/clear-skies/'
     : '/',
 
     pwa: {
-      name: 'Simple Weather',
+      name: 'clearSkies',
       themeColor: '#4A90E2',
       msTileColor: '#4A90E2',
       manifestOptions: {
@@ -16,7 +16,7 @@ module.exports = {
       config
       .plugin('html')
       .tap(args => {
-        args[0].title = 'Simple Weather'
+        args[0].title = 'clearSkies'
         return args
       })
     }
