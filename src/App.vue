@@ -1,12 +1,17 @@
 <template>
   <div id="app">
     <LocationList @setLocation="setLocation" @unsetLocation="reset" />
+    <div class="update-data">
+      Updated {{ lastUpdated }} - <span @click="refresh" class="refresh-link">Reload</span>
+    </div>
     <HourlyForecast :data="hourly" />
   </div>
 </template>
 
 <script>
 import Axios from "axios";
+import moment from 'moment';
+
 import LocationList from "@/components/LocationList.vue";
 import HourlyForecast from "@/components/HourlyForecast.vue";
 
@@ -17,9 +22,11 @@ export default {
   },
   data() {
     return {
+      time: moment(),
       current: {},
       daily: [],
-      hourly: []
+      hourly: [],
+      lastUpdated: ""
     };
   },
   methods: {
@@ -57,6 +64,8 @@ export default {
         this.current = res.data.current;
         this.daily = res.data.daily;
         this.hourly = res.data.hourly;
+        this.time = moment();
+        this.lastUpdated = this.time.fromNow();
       })
       .catch((err) => {
         console.dir(err);
@@ -67,6 +76,9 @@ export default {
       this.current = {};
       this.daily = [];
       this.hourly = [];
+    },
+    refresh() {
+      location.reload();
     }
   },
   mounted() {
@@ -74,6 +86,10 @@ export default {
     if (location && Object.keys(location).length > 0) {
       this.setLocation(location);
     }
+    this.lastUpdated = this.time.fromNow();
+    setInterval(() => {
+      this.lastUpdated = this.time.fromNow();
+    }, 10 * 1000);
   }
 };
 </script>
@@ -85,5 +101,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.update-data {
+  margin: 16px 0;
+}
+.update-data .refresh-link {
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

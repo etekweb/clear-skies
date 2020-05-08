@@ -93,7 +93,6 @@ export default {
 
 <style scoped>
 .hourly-forecast {
-  margin-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
