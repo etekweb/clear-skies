@@ -19,14 +19,11 @@ Note: To ensure you have the latest version, if you've visited the site before, 
 
 ### Installation on Mobile
 
-**Android **(Chrome)
+**Android** (Chrome)
 
 1. Visit the live site with the link above.
-
 2. A popup will appear at the bottom on first visit to add to home screen. Click it, then click Add.
-
-   (Note: If you do not see this popup, you can also open the menu in Chrome, then click "Add to Home Screen", then click Add.)
-
+   (If you do not see this popup, you can also open the menu in Chrome, then click "Add to Home Screen", then click Add.)
 3. The web app will appear in your app drawer and/or home screen similarly to a normal app.
 
 **iOS** (Safari)
@@ -49,15 +46,9 @@ Currently, the best way to update is to remove the web app from your home screen
 **iOS**
 
 1. Uninstall the web app if you added it above (just like a normal app).
-
 2. Open the Settings app.
-
 3. Scroll down and click Safari, then scroll down and click "Clear History and Website Data".
-
-   *NOTE: Doing this will close all currently-open tabs in Safari*.
-
-   Confirm by clicking "Clear History and Data".
-
+   *NOTE: Doing this will close all currently-open tabs in Safari*. Confirm by clicking "Clear History and Data".
 4. You can then reinstall using the above instructions if you wish.
 
 ## Development
