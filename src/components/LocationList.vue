@@ -72,6 +72,12 @@ export default {
         this.showLocationSettings = !this.showLocationSettings;
       }
     }
+  },
+  mounted() {
+    const location = this.$store.state.currentLocation;
+    if (location && Object.keys(location).length > 0) {
+      this.showLocationSettings = false;
+    }
   }
 };
 </script>
