@@ -1,5 +1,7 @@
 # Simple Weather
 
+**In development, not yet complete.**
+
 ## About
 
 Simple Weather is an in-development web app that makes checking the weather as easy as it sounds. 
