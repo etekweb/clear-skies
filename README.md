@@ -47,9 +47,7 @@ Currently, the best way to update is to remove the web app from your home screen
 
 1. Uninstall the web app if you added it above (just like a normal app).
 2. Open the Settings app.
-3. Scroll down and click Safari, then scroll down and click "Clear History and Website Data".
-
-   *NOTE: Doing this will close all currently-open tabs in Safari*. Confirm by clicking "Clear History and Data".
+3. Scroll down and click Safari, then scroll down and click "Clear History and Website Data". *Doing this will close all currently-open tabs in Safari*. Confirm by clicking "Clear History and Data".
 4. You can then reinstall using the above instructions if you wish.
 
 ## Development
