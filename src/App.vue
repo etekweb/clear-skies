@@ -1,26 +1,19 @@
 <template>
   <div id="app">
-    <LocationList
-      @setLocation="setLocation"
-      @unsetLocation="reset"
-    />
-    <div class="time-wrap">
-      <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
-        <span class="time">{{convertTime(hour.startTime)}}</span>
-        <span class="temp">{{hour.temperature}}℉</span>
-        <span class="forecast">{{hour.shortForecast}}</span>
-      </div>
-    </div>
+    <LocationList @setLocation="setLocation" @unsetLocation="reset" />
+    <HourlyForecast :data="hourly" />
   </div>
 </template>
 
 <script>
 import Axios from "axios";
 import LocationList from "@/components/LocationList.vue";
+import HourlyForecast from "@/components/HourlyForecast.vue";
 
 export default {
   components: {
-    LocationList
+    LocationList,
+    HourlyForecast
   },
   data() {
     return {
@@ -29,17 +22,9 @@ export default {
       hourly: []
     };
   },
-  computed: {
-    hourlyToday() {
-      if (this.hourly) {
-        return this.hourly.slice(0, 12);
-      }
-      return [];
-    }
-  },
   methods: {
     setLocation(location) {
-      this.$store.commit('setCurrentLocation', location);
+      this.$store.commit("setCurrentLocation", location);
       this.props = {};
       this.forecast = [];
       this.hourly = [];
@@ -83,22 +68,8 @@ export default {
           alert(err);
         });
     },
-    convertTime(time) {
-      const d = new Date(time);
-      let hour = d.getHours();
-      // Set AM and PM
-      let tod = hour > 11 ? "p" : "a";
-      // Remove 13-23 from range (for 12 hour time)
-      hour = hour % 12;
-      // If hour is 0, it is midnight or noon, so set to 12
-      if (hour === 0) {
-        hour = 12;
-      }
-      // Return proper date/time string
-      return d.getMonth() + "/" + d.getDate() + " " + hour + tod;
-    },
     reset() {
-      this.$store.commit('setCurrentLocation', {});
+      this.$store.commit("setCurrentLocation", {});
       this.props = {};
       this.forecast = [];
       this.hourly = [];
@@ -120,28 +91,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-.time-wrap {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.timeRow {
-  display: grid;
-  grid-template-columns: 1fr 40px 1fr;
-  margin-bottom: 6px;
-  gap: 8px;
-}
-.timeRow .time {
-  text-align: right;
-}
-.timeRow .temp {
-  border: 1px solid black;
-  border-radius: 4px;
-}
-.timeRow .forecast {
-  text-align: left;
 }
 </style>
