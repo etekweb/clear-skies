@@ -46,6 +46,7 @@ export default {
         this.$emit('setLocation', location);
         this.zip = "";
         document.activeElement.blur();
+        this.toggleLocationSettings();
       } else {
         alert("Please enter a valid ZIP code.");
       }
@@ -59,6 +60,7 @@ export default {
       if (this.$store.state.locations.findIndex(obj => obj.name === location.name) === -1) {
         this.$store.commit("addLocation", location);
         this.$emit('setLocation', location);
+        this.toggleLocationSettings();
       }
     },
     removeLocation(location) {
