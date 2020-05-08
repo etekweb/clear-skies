@@ -4,6 +4,7 @@
       <span class="time">{{convertTime(hour.startTime)}}</span>
       <span class="temp">{{hour.temperature}}℉</span>
       <span class="forecast">{{forecasts[index]}}</span>
+      <span class="wind">{{directionArrow(windDirs[index])}} {{windSpeeds[index]}}</span>
     </div>
   </div>
 </template>
@@ -23,10 +24,34 @@ export default {
     forecasts() {
       const arr = [];
       let current = "";
-      for (let i=0; i<this.hourlyToday.length; i++) {
+      for (let i = 0; i < this.hourlyToday.length; i++) {
         if (this.hourlyToday[i].shortForecast !== current) {
           current = this.hourlyToday[i].shortForecast;
           arr.push(current);
+        } else {
+          arr.push("");
+        }
+      }
+      return arr;
+    },
+    windSpeeds() {
+      const arr = [];
+      let current = "";
+      for (let i = 0; i < this.hourlyToday.length; i++) {
+        if (this.hourlyToday[i].windSpeed !== current) {
+          current = this.hourlyToday[i].windSpeed;
+          arr.push(current);
+        } else {
+          arr.push("");
+        }
+      }
+      return arr;
+    },
+    windDirs() {
+      const arr = [];
+      for (let i = 0; i < this.hourlyToday.length; i++) {
+        if (this.windSpeeds[i] !== "") {
+          arr.push(this.hourlyToday[i].windDirection);
         } else {
           arr.push("");
         }
@@ -48,6 +73,30 @@ export default {
       }
       // Return proper date/time string
       return d.getMonth() + "/" + d.getDate() + " " + hour + tod;
+    },
+    directionArrow(direction) {
+      switch (direction) {
+        case "E":
+          return "→";
+        case "W":
+          return "←";
+        case "N":
+          return "↑";
+        case "S":
+          return "↓";
+        case "SE":
+          return "↘︎";
+        case "NW":
+          return "↖︎";
+        case "NE":
+          return "↗︎";
+        case "SW":
+          return "↙︎";
+        case "":
+          return "";
+        default:
+          return "–";
+      }
     }
   }
 };
@@ -63,10 +112,11 @@ export default {
 }
 .timeRow {
   display: grid;
-  grid-template-columns: 1fr 40px 1fr;
+  grid-template-columns: 1fr 40px 1fr 100px;
   grid-template-rows: 24px;
   gap: 8px;
   margin-bottom: 6px;
+  width: 100%;
 }
 .timeRow .time {
   text-align: right;
@@ -77,5 +127,9 @@ export default {
 }
 .timeRow .forecast {
   text-align: left;
+}
+.timeRow .wind {
+  text-align: right;
+  margin-right: 20px;
 }
 </style>
