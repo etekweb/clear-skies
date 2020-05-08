@@ -1,29 +1,26 @@
-# simple-weather
+# Simple Weather
 
-## Project setup
-```
-npm install
-```
+## About
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Simple Weather is an in-development web app that makes checking the weather as easy as it sounds. 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Simple, clean interface with no ads
+- Loads and updates fast
+- Store your favorite locations on-device
+- Add to your favorite device's home screen for fast access
 
-### Run your tests
-```
-npm run test
-```
+## Usage
 
-### Lints and fixes files
-```
-npm run lint
-```
+Current version: [Click here](https://etekweb.github.io/simple-weather)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Development
+
+This web app is built with [Vue.js](https://vuejs.org/), a JavaScript framework, and is built with [Vue CLI 3](https://cli.vuejs.org/).
+
+Basic process for development is as follows:
+
+1. Clone repository
+2. Run `npm install` in project folder
+3. Use command `npm run serve` to test locally
+4. Use command `npm run build` to build for production
+
