@@ -5,8 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    locations: [],
   },
   mutations: {
+    addLocation(state, payload) {
+      state.locations.push(payload);
+    }
   },
   actions: {
   },

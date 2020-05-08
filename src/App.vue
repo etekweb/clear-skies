@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <div class="start">
-      Enter ZIP Code:
-      <input type="number" @keypress.enter="setLocationWithZIP" v-model="zip" />
-      <div @click="setLocationWithZIP" class="submit">Submit</div>
-      <div @click="setLocationWithGPS" class="submit">Use GPS Instead</div>
-    </div>
-    <div class="location">{{city}}{{state ? ', ' + state : ''}}</div>
+    <LocationList @setLocation="setLocation" :currentLocation="currentLocation" />
     <div class="time-wrap">
       <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
         <span class="time">{{convertTime(hour.startTime)}}</span>
@@ -19,18 +13,25 @@
 
 <script>
 import Axios from "axios";
-import zipcodes from "zipcodes";
+import LocationList from "@/components/LocationList.vue";
 
 export default {
-  name: "Home",
+  components: {
+    LocationList
+  },
   data() {
     return {
-      zip: "",
-      city: "",
-      state: "",
+      currentLocation: {},
       props: {},
       forecast: [],
-      hourly: []
+      hourly: [],
+      locations: [
+        {
+          name: "Cloquet, MN",
+          lat: 47.1234,
+          long: -69.42
+        }
+      ]
     };
   },
   computed: {
@@ -42,31 +43,9 @@ export default {
     }
   },
   methods: {
-    setLocationWithZIP() {
-      const location = zipcodes.lookup(this.zip);
-      console.log(location);
-      if (location) {
-        this.city = location.city;
-        this.state = location.state;
-        this.getWeatherData(location.latitude, location.longitude);
-        document.activeElement.blur();
-      } else {
-        alert("Please enter a valid ZIP code.");
-      }
-    },
-    setLocationWithGPS() {
-      this.zip = "";
-      this.city = "Getting Location..."
-      this.state = "";
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          this.city = "Current Location";
-          this.getWeatherData(pos.coords.latitude, pos.coords.longitude);
-        });
-      } else {
-        alert("Geolocation is not supported by this browser.");
-        this.city = "";
-      }
+    setLocation(location) {
+      this.currentLocation = location;
+      this.getWeatherData(location.lat, location.long);
     },
     getWeatherData(lat, long) {
       Axios.get("https://api.weather.gov/points/" + lat + "," + long)
@@ -95,7 +74,7 @@ export default {
       const d = new Date(time);
       let hour = d.getHours();
       // Set AM and PM
-      let tod = hour > 11 ? 'p' : 'a';
+      let tod = hour > 11 ? "p" : "a";
       // Remove 13-23 from range (for 12 hour time)
       hour = hour % 12;
       // If hour is 0, it is midnight or noon, so set to 12
@@ -120,23 +99,8 @@ export default {
 .start {
   line-height: 32px;
 }
-.submit {
-  /* height: 50px; */
-  display: inline;
-  border: 1px solid black;
-  text-align: center;
-  /* display: table-cell;
-  vertical-align: middle; */
-  cursor: pointer;
-  user-select: none;
-  margin: 0 8px;
-  padding: 0 4px;
-  white-space: nowrap;
-}
-.location {
-  margin: 8px 0 16px 0;
-}
 .time-wrap {
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
