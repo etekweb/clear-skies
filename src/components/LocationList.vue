@@ -44,6 +44,7 @@ export default {
         location.long = res.longitude;
         this.$store.commit("addLocation", location);
         this.setLocation(location);
+        this.zip = "";
         document.activeElement.blur();
       } else {
         alert("Please enter a valid ZIP code.");
@@ -51,18 +52,11 @@ export default {
     },
     addLocationWithGPS() {
       this.zip = "";
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          const location = {};
-          location.name = "Current Location";
-          location.lat = pos.coords.latitude;
-          location.long = pos.coords.longitude;
-          this.$store.commit("addLocation", location);
-          this.setLocation(location);
-        });
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
+      const location = {};
+      location.name = "Current Location";
+      location.useGPS = true;
+      this.$store.commit("addLocation", location);
+      this.setLocation(location);
     },
     setLocation(location) {
       this.$emit("setLocation", location);

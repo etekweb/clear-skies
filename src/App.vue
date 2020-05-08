@@ -45,7 +45,22 @@ export default {
   methods: {
     setLocation(location) {
       this.currentLocation = location;
-      this.getWeatherData(location.lat, location.long);
+      if (location.useGPS) {
+        this.setLocationWithGPS(location);
+      } else {
+        this.getWeatherData(location.lat, location.long);
+      }
+    },
+    setLocationWithGPS(location) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          location.lat = pos.coords.latitude;
+          location.long = pos.coords.longitude;
+          this.getWeatherData(location.lat, location.long);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
     },
     getWeatherData(lat, long) {
       Axios.get("https://api.weather.gov/points/" + lat + "," + long)
