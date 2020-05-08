@@ -96,9 +96,6 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-.start {
-  line-height: 32px;
-}
 .time-wrap {
   margin-top: 24px;
   display: flex;

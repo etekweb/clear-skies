@@ -82,6 +82,9 @@ export default {
   display: flex;
   overflow-x: scroll;
 }
+.add-location {
+  line-height: 32px;
+}
 .btn {
   /* height: 50px; */
   display: inline;
