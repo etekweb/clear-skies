@@ -3,7 +3,7 @@
     <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
       <span class="time">{{convertTime(hour.startTime)}}</span>
       <span class="temp">{{hour.temperature}}℉</span>
-      <span class="forecast">{{hour.shortForecast}}</span>
+      <span class="forecast">{{forecasts[index]}}</span>
     </div>
   </div>
 </template>
@@ -19,6 +19,19 @@ export default {
         return this.data.slice(0, 12);
       }
       return [];
+    },
+    forecasts() {
+      const arr = [];
+      let current = "";
+      for (let i=0; i<this.hourlyToday.length; i++) {
+        if (this.hourlyToday[i].shortForecast !== current) {
+          current = this.hourlyToday[i].shortForecast;
+          arr.push(current);
+        } else {
+          arr.push("");
+        }
+      }
+      return arr;
     }
   },
   methods: {
@@ -51,8 +64,9 @@ export default {
 .timeRow {
   display: grid;
   grid-template-columns: 1fr 40px 1fr;
-  margin-bottom: 6px;
+  grid-template-rows: 24px;
   gap: 8px;
+  margin-bottom: 6px;
 }
 .timeRow .time {
   text-align: right;
