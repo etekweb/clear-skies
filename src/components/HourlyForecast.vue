@@ -5,6 +5,7 @@
       <span class="temp">{{Math.round(hour.temp)}}℉</span>
       <span class="forecast">{{forecasts[index]}}</span>
       <span class="wind">{{windStr(windDirs[index], windSpeeds[index])}}</span>
+      <span class="rain">{{hour.rain ? downfallIcon(hour.temp) + hour.rain['1h'] + '"' : ''}}</span>
     </div>
   </div>
 </template>
@@ -97,6 +98,12 @@ export default {
         default:
           return "—";
       }
+    },
+    downfallIcon(temp) {
+      if (temp > 32) {
+        return '💧';
+      }
+      return '❄️';
     }
   }
 };
@@ -112,7 +119,7 @@ export default {
 }
 .timeRow {
   display: grid;
-  grid-template-columns: 1fr 40px 1fr 100px;
+  grid-template-columns: 1fr 40px 1fr 100px 100px;
   grid-template-rows: 24px;
   gap: 8px;
   margin-bottom: 6px;
