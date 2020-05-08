@@ -1,15 +1,17 @@
 <template>
   <div class="hourly-forecast">
     <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
-      <span class="time">{{convertTime(hour.startTime)}}</span>
-      <span class="temp">{{hour.temperature}}℉</span>
+      <span class="time">{{timeStr(hour.dt)}}</span>
+      <span class="temp">{{Math.round(hour.temp)}}℉</span>
       <span class="forecast">{{forecasts[index]}}</span>
-      <span class="wind">{{directionArrow(windDirs[index])}} {{windSpeeds[index]}}</span>
+      <span class="wind">{{windStr(windDirs[index], windSpeeds[index])}}</span>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   props: {
     data: Array[Object]
@@ -25,8 +27,8 @@ export default {
       const arr = [];
       let current = "";
       for (let i = 0; i < this.hourlyToday.length; i++) {
-        if (this.hourlyToday[i].shortForecast !== current) {
-          current = this.hourlyToday[i].shortForecast;
+        if (this.hourlyToday[i].weather[0].main !== current) {
+          current = this.hourlyToday[i].weather[0].main;
           arr.push(current);
         } else {
           arr.push("");
@@ -38,8 +40,9 @@ export default {
       const arr = [];
       let current = "";
       for (let i = 0; i < this.hourlyToday.length; i++) {
-        if (this.hourlyToday[i].windSpeed !== current) {
-          current = this.hourlyToday[i].windSpeed;
+        const windSpeed = Math.floor(this.hourlyToday[i].wind_speed);
+        if (windSpeed !== current) {
+          current = windSpeed;
           arr.push(current);
         } else {
           arr.push("");
@@ -51,7 +54,7 @@ export default {
       const arr = [];
       for (let i = 0; i < this.hourlyToday.length; i++) {
         if (this.windSpeeds[i] !== "") {
-          arr.push(this.hourlyToday[i].windDirection);
+          arr.push(this.hourlyToday[i].wind_deg);
         } else {
           arr.push("");
         }
@@ -60,42 +63,39 @@ export default {
     }
   },
   methods: {
-    convertTime(time) {
-      const d = new Date(time);
-      let hour = d.getHours();
-      // Set AM and PM
-      let tod = hour > 11 ? "p" : "a";
-      // Remove 13-23 from range (for 12 hour time)
-      hour = hour % 12;
-      // If hour is 0, it is midnight or noon, so set to 12
-      if (hour === 0) {
-        hour = 12;
+    timeStr(time) {
+      return moment.unix(time).format("M/D ha").slice(0, -1);
+    },
+    windStr(windDir, windSpeed) {
+      if (windDir || windSpeed) {
+        return this.directionArrow(windDir) + " " + windSpeed + " mph";
       }
-      // Return proper date/time string
-      return d.getMonth() + "/" + d.getDate() + " " + hour + tod;
+      return "";
     },
     directionArrow(direction) {
-      switch (direction) {
-        case "E":
+      if (direction === "") {
+        return "";
+      }
+      const head = Math.round(direction / 45);
+      switch (head) {
+        case 2:
           return "→";
-        case "W":
+        case 6:
           return "←";
-        case "N":
+        case 0:
           return "↑";
-        case "S":
+        case 4:
           return "↓";
-        case "SE":
+        case 3:
           return "↘︎";
-        case "NW":
+        case 7:
           return "↖︎";
-        case "NE":
+        case 1:
           return "↗︎";
-        case "SW":
+        case 5:
           return "↙︎";
-        case "":
-          return "";
         default:
-          return "–";
+          return "—";
       }
     }
   }

@@ -17,75 +17,55 @@ export default {
   },
   data() {
     return {
-      props: {},
-      forecast: [],
-      hourly: [],
-      sun: {}
+      current: {},
+      daily: [],
+      hourly: []
     };
   },
   methods: {
     setLocation(location) {
       this.$store.commit("setCurrentLocation", location);
-      this.props = {};
-      this.forecast = [];
+      this.current = {};
+      this.daily = [];
       this.hourly = [];
       if (location.useGPS) {
-        this.setLocationWithGPS(location);
+        this.setLocationWithGPS();
       } else {
         this.getWeatherData(location.lat, location.long);
       }
     },
-    setLocationWithGPS(location) {
+    setLocationWithGPS() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
-          location.lat = pos.coords.latitude;
-          location.long = pos.coords.longitude;
-          this.getWeatherData(location.lat, location.long);
+          this.getWeatherData(pos.coords.latitude, pos.coords.longitude);
         });
       } else {
         alert("Geolocation is not supported by this browser.");
       }
     },
     getWeatherData(lat, long) {
-      Axios.get("https://api.weather.gov/points/" + lat + "," + long)
-        .then(res => {
-          this.props = res.data.properties;
-          Axios.get(this.props.forecast)
-            .then(resTwo => {
-              this.forecast = resTwo.data.properties.periods;
-            })
-            .catch(errTwo => {
-              alert(errTwo);
-            });
-          Axios.get(this.props.forecastHourly)
-            .then(resThr => {
-              this.hourly = resThr.data.properties.periods;
-            })
-            .catch(errThr => {
-              alert(errThr);
-            });
-        })
-        .catch(err => {
-          alert(err);
-        });
+      console.log("Getting weather data...");
       Axios.get(
-        "https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + long
+        "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+          lat +
+          "&lon=" +
+          long +
+          "&units=imperial&appid=" +
+          process.env.VUE_APP_APIKEY
       )
-        .then(res => {
-          if (res.data.status === "OK") {
-            this.sun = res.data.results;
-          } else {
-            alert("Sunrise/sunset data error: " + res.data.status);
-          }
-        })
-        .catch(err => {
-          alert(err);
-        });
+      .then((res) => {
+        this.current = res.data.current;
+        this.daily = res.data.daily;
+        this.hourly = res.data.hourly;
+      })
+      .catch((err) => {
+        console.dir(err);
+      })
     },
     reset() {
       this.$store.commit("setCurrentLocation", {});
-      this.props = {};
-      this.forecast = [];
+      this.current = {};
+      this.daily = [];
       this.hourly = [];
     }
   },

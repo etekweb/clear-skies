@@ -21,8 +21,7 @@
       <div @click="addLocationWithZIP" class="btn">Submit</div>
       <div @click="addLocationWithGPS" class="btn">Use GPS Instead</div>
       <div>
-        Data sources: NWS and
-        <a href="https://sunrise-sunset.org/" target="_blank">https://sunrise-sunset.org/</a>
+        Data source: <a href="https://openweathermap.org/" target="_blank">https://openweathermap.org/</a>
       </div>
     </div>
   </div>
