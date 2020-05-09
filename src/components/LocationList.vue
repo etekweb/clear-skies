@@ -21,7 +21,7 @@
       <div @click="addLocationWithZIP" class="btn">Submit</div>
       <div @click="addLocationWithGPS" class="btn">Use GPS Instead</div>
       <div>
-        <div class="btn" @click="reload">Check for Updates</div>
+        <div class="btn" @click="reload">Check for App Updates</div>
       </div>
     </div>
   </div>

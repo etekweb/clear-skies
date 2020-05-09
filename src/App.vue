@@ -6,11 +6,11 @@
         App update available! -
         <span @click="refresh" class="refresh-link">Click to update</span>
       </div>
-      Updated {{ lastUpdated }} -
+      Weather data from {{ lastUpdated }} -
       <span
         @click="setLocation($store.state.currentLocation)"
         class="refresh-link"
-      >Reload</span>
+      >Get New Data</span>
     </div>
     <ExtendedForecast :data="hourly" />
     <ExtendedForecast isDaily :data="daily" />
