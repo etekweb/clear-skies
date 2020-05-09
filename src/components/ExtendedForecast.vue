@@ -119,14 +119,14 @@ export default {
 }
 .timeRow {
   display: grid;
-  grid-template-columns: 1fr 40px 1fr 100px 100px;
+  grid-template-columns: 1fr 40px 1fr 100px 60px;
   grid-template-rows: 24px;
   gap: 8px;
   margin-bottom: 6px;
   width: 100%;
 }
 .timeRow.daily {
-  grid-template-columns: 1fr 40px 40px 1fr 100px 100px;
+  grid-template-columns: 1fr 40px 40px 1fr 100px 60px;
 }
 .timeRow .time {
   text-align: right;
