@@ -12,8 +12,7 @@ if (process.env.NODE_ENV === 'production') {
       )
     },
     registered () {
-      console.log('Service worker has been registered.')
-      store.commit('register')
+      console.log('Service worker has been registered. Update notification system equipped.')
     },
     cached () {
       console.log('Content has been cached for offline use.')
@@ -23,6 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     updated () {
       console.log('New content is available. Refresh to get latest update.')
+      store.commit('updated')
       // setTimeout(() => {
       //   window.location.reload(true)
       // }, 1000)
