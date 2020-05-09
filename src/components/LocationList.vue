@@ -21,7 +21,7 @@
       <div @click="addLocationWithZIP" class="btn">Submit</div>
       <div @click="addLocationWithGPS" class="btn">Use GPS Instead</div>
       <div>
-        Data source: <a href="https://openweathermap.org/" target="_blank">https://openweathermap.org/</a>
+        <div class="btn" @click="reload">Check for Updates</div>
       </div>
     </div>
   </div>
@@ -80,6 +80,9 @@ export default {
       if (Object.keys(this.$store.state.currentLocation).length !== 0) {
         this.showLocationSettings = !this.showLocationSettings;
       }
+    },
+    reload() {
+      location.reload();
     }
   },
   mounted() {
