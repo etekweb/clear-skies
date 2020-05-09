@@ -100,6 +100,10 @@ export default {
 .location-list {
   display: flex;
   overflow-x: scroll;
+  -ms-overflow-style: none;
+}
+.location-list::-webkit-scrollbar {
+  display: none;
 }
 .add-location {
   line-height: 32px;

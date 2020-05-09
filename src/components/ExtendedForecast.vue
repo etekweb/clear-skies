@@ -1,11 +1,13 @@
 <template>
   <div class="hourly-forecast">
-    <div v-for="(hour, index) of hourlyToday" class="timeRow" :key="index">
+    <div v-for="(hour, index) of hourlyToday" class="timeRow" :class="{daily: isDaily}" :key="index">
       <span class="time">{{timeStr(hour.dt)}}</span>
-      <span class="temp">{{Math.round(hour.temp)}}℉</span>
+      <span v-if="!isDaily" class="temp">{{Math.round(hour.temp)}}℉</span>
+      <span v-if="isDaily" class="temp">{{Math.round(hour.temp.min)}}℉</span>
+      <span v-if="isDaily" class="temp">{{Math.round(hour.temp.max)}}℉</span>
       <span class="forecast">{{forecasts[index]}}</span>
       <span class="wind">{{windStr(windDirs[index], windSpeeds[index])}}</span>
-      <span class="rain">{{hour.rain ? downfallIcon(hour.temp) + hour.rain['1h'] + '"' : ''}}</span>
+      <span class="rain">{{downfallStr(hour.temp, hour.rain)}}</span>
     </div>
   </div>
 </template>
@@ -15,7 +17,8 @@ import moment from 'moment';
 
 export default {
   props: {
-    data: Array[Object]
+    data: Array[Object],
+    isDaily: Boolean,
   },
   computed: {
     hourlyToday() {
@@ -65,6 +68,9 @@ export default {
   },
   methods: {
     timeStr(time) {
+      if (this.isDaily) {
+        return moment.unix(time).format("ddd M/D");
+      }
       return moment.unix(time).format("M/D ha").slice(0, -1);
     },
     windStr(windDir, windSpeed) {
@@ -81,11 +87,23 @@ export default {
       var arr = ["↑", "↑", "↗︎", "→", "→", "→", "↘︎", "↓", "↓", "↓", "↙︎", "←", "←", "←", "↖︎", "↑"];
       return arr[(val % 16)];
     },
-    downfallIcon(temp) {
-      if (temp > 32) {
-        return '💧';
+    downfallStr(temp, rain) {
+      if (!rain) {
+        return "";
       }
-      return '❄️';
+      let downfallInches = 0;
+      let downfallIcon = "❄️";
+      let minTemp = temp;
+      if (this.isDaily) {
+        downfallInches = rain / 25.4;
+        minTemp = temp.min;
+      } else {
+        downfallInches = rain['1h'] / 25.4;
+      }
+      if (minTemp > 32) {
+        downfallIcon = '💧';
+      }
+      return downfallIcon + downfallInches.toFixed(2) + "\"";
     }
   }
 };
@@ -97,6 +115,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-bottom: 30px;
 }
 .timeRow {
   display: grid;
@@ -105,6 +124,9 @@ export default {
   gap: 8px;
   margin-bottom: 6px;
   width: 100%;
+}
+.timeRow.daily {
+  grid-template-columns: 1fr 40px 40px 1fr 100px 100px;
 }
 .timeRow .time {
   text-align: right;

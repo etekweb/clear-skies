@@ -4,7 +4,8 @@
     <div class="update-data">
       Updated {{ lastUpdated }} - <span @click="refresh" class="refresh-link">Reload</span>
     </div>
-    <HourlyForecast :data="hourly" />
+    <ExtendedForecast :data="hourly" />
+    <ExtendedForecast isDaily :data="daily" />
   </div>
 </template>
 
@@ -13,12 +14,12 @@ import Axios from "axios";
 import moment from 'moment';
 
 import LocationList from "@/components/LocationList.vue";
-import HourlyForecast from "@/components/HourlyForecast.vue";
+import ExtendedForecast from "@/components/ExtendedForecast.vue";
 
 export default {
   components: {
     LocationList,
-    HourlyForecast
+    ExtendedForecast
   },
   data() {
     return {
