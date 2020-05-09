@@ -12,7 +12,7 @@ export default new Vuex.Store({
   state: {
     locations: [],
     currentLocation: {},
-    isRegistered: false,
+    updateOnRestart: false,
   },
   mutations: {
     addLocation(state, payload) {
@@ -29,8 +29,8 @@ export default new Vuex.Store({
     setCurrentLocation(state, payload) {
       state.currentLocation = payload;
     },
-    register(state) {
-      state.isRegistered = true;
+    updated(state) {
+      state.updateOnRestart = true;
     }
   },
   actions: {

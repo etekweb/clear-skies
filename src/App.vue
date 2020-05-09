@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <LocationList @setLocation="setLocation" @unsetLocation="reset" />
-    <div class="update-data">
-      {{$store.state.isRegistered}}
-      Updated {{ lastUpdated }} - <span @click="refresh" class="refresh-link">Reload</span>
+    <div class="update-data" :class="{old: oldData}">
+      <div class="update-app" v-if="$store.state.updateOnRestart">
+        App update available! -
+        <span @click="refresh" class="refresh-link">Click to update</span>
+      </div>
+      Updated {{ lastUpdated }} -
+      <span @click="refresh" class="refresh-link">Reload</span>
     </div>
     <ExtendedForecast :data="hourly" />
     <ExtendedForecast isDaily :data="daily" />
@@ -12,7 +16,7 @@
 
 <script>
 import Axios from "axios";
-import moment from 'moment';
+import moment from "moment";
 
 import LocationList from "@/components/LocationList.vue";
 import ExtendedForecast from "@/components/ExtendedForecast.vue";
@@ -30,6 +34,14 @@ export default {
       hourly: [],
       lastUpdated: ""
     };
+  },
+  computed: {
+    oldData() {
+      if (parseInt(this.lastUpdated[0]) >= 5) {
+        return true;
+      }
+      return false;
+    }
   },
   methods: {
     setLocation(location) {
@@ -62,16 +74,16 @@ export default {
           "&units=imperial&appid=" +
           process.env.VUE_APP_APIKEY
       )
-      .then((res) => {
-        this.current = res.data.current;
-        this.daily = res.data.daily;
-        this.hourly = res.data.hourly;
-        this.time = moment();
-        this.lastUpdated = this.time.fromNow();
-      })
-      .catch((err) => {
-        console.dir(err);
-      })
+        .then(res => {
+          this.current = res.data.current;
+          this.daily = res.data.daily;
+          this.hourly = res.data.hourly;
+          this.time = moment();
+          this.lastUpdated = this.time.fromNow();
+        })
+        .catch(err => {
+          console.dir(err);
+        });
     },
     reset() {
       this.$store.commit("setCurrentLocation", {});
@@ -107,7 +119,13 @@ export default {
 .update-data {
   margin: 16px 0;
 }
-.update-data .refresh-link {
+.update-data.old {
+  color: red;
+}
+.update-app {
+  color: green;
+}
+.refresh-link {
   text-decoration: underline;
   cursor: pointer;
 }
