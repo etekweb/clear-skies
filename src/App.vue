@@ -2,6 +2,7 @@
   <div id="app">
     <LocationList @setLocation="setLocation" @unsetLocation="reset" />
     <div class="update-data">
+      {{$store.state.isRegistered}}
       Updated {{ lastUpdated }} - <span @click="refresh" class="refresh-link">Reload</span>
     </div>
     <ExtendedForecast :data="hourly" />

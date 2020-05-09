@@ -11,7 +11,8 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   state: {
     locations: [],
-    currentLocation: {}
+    currentLocation: {},
+    isRegistered: false,
   },
   mutations: {
     addLocation(state, payload) {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     setCurrentLocation(state, payload) {
       state.currentLocation = payload;
+    },
+    register(state) {
+      state.isRegistered = true;
     }
   },
   actions: {
