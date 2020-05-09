@@ -2,15 +2,15 @@
   <div id="app">
     <LocationList @setLocation="setLocation" @unsetLocation="reset" />
     <div class="update-data" :class="{old: oldData}">
-      <div class="update-app" v-if="$store.state.updateOnRestart">
-        App update available! -
-        <span @click="refresh" class="refresh-link">Click to update</span>
-      </div>
-      Weather data from {{ lastUpdated }} -
+      Last updated {{ lastUpdated }} -
       <span
         @click="setLocation($store.state.currentLocation)"
         class="refresh-link"
-      >Get New Data</span>
+      >Update weather data</span>
+      <div class="update-app" v-if="$store.state.updateOnRestart">
+        App update available! -
+        <span @click="refresh" class="refresh-link">Update app</span>
+      </div>
     </div>
     <ExtendedForecast :data="hourly" />
     <ExtendedForecast isDaily :data="daily" />
@@ -95,6 +95,7 @@ export default {
       this.hourly = [];
     },
     refresh() {
+      this.$store.commit('notUpdated');
       location.reload();
     }
   },
@@ -121,6 +122,7 @@ export default {
 }
 .update-data {
   margin: 16px 0;
+  height: 44px;
 }
 .update-data.old {
   color: red;

@@ -31,6 +31,9 @@ export default new Vuex.Store({
     },
     updated(state) {
       state.updateOnRestart = true;
+    },
+    notUpdated(state) {
+      state.updateOnRestart = false;
     }
   },
   actions: {
