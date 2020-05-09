@@ -12,6 +12,7 @@
         <span @click="refresh" class="refresh-link">Update app</span>
       </div>
     </div>
+    <CurrentConditions :data="current" />
     <ExtendedForecast :data="hourly" />
     <ExtendedForecast isDaily :data="daily" />
   </div>
@@ -23,11 +24,13 @@ import moment from "moment";
 
 import LocationList from "@/components/LocationList.vue";
 import ExtendedForecast from "@/components/ExtendedForecast.vue";
+import CurrentConditions from "@/components/CurrentConditions.vue";
 
 export default {
   components: {
     LocationList,
-    ExtendedForecast
+    ExtendedForecast,
+    CurrentConditions
   },
   data() {
     return {
@@ -121,7 +124,7 @@ export default {
   color: #2c3e50;
 }
 .update-data {
-  margin: 16px 0;
+  margin: 16px 0 0 0;
   height: 44px;
 }
 .update-data.old {

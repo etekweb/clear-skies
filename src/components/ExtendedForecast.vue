@@ -2,11 +2,15 @@
   <div class="hourly-forecast">
     <div v-for="(hour, index) of hourlyToday" class="timeRow" :class="{daily: isDaily}" :key="index">
       <span class="time">{{timeStr(hour.dt)}}</span>
+
       <span v-if="!isDaily" class="temp">{{Math.round(hour.temp)}}℉</span>
       <span v-if="isDaily" class="temp">{{Math.round(hour.temp.min)}}℉</span>
       <span v-if="isDaily" class="temp">{{Math.round(hour.temp.max)}}℉</span>
+
       <span class="forecast">{{forecasts[index]}}</span>
+
       <span class="wind">{{windStr(windDirs[index], windSpeeds[index])}}</span>
+
       <span class="rain">{{downfallStr(hour.temp, hour.rain)}}</span>
     </div>
   </div>
@@ -23,6 +27,7 @@ export default {
   computed: {
     hourlyToday() {
       if (this.data) {
+        // TODO: change first param to 1 when current conditions finished
         return this.data.slice(0, 12);
       }
       return [];
