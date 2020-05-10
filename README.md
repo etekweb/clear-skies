@@ -15,8 +15,6 @@ clearSkies is a web app that makes checking the weather as easy as it sounds.
 
 Live site: [Click here](https://etekweb.github.io/clear-skies)
 
-Note: To ensure you have the latest version, if you've visited the site before, "hard reload" and/or clear your cache. You can do this on a computer by pressing `CTRL + SHIFT + R` while on the live site above. Instructions to do this on mobile are in the "Updating" section below.
-
 ### Installation on Mobile
 
 **Android** (Chrome)
@@ -32,23 +30,14 @@ Note: To ensure you have the latest version, if you've visited the site before, 
 2. Click the Share button (center-bottom of browser window). Scroll down and click "Add to Home Screen", then click Add.
 3. The web app will appear on your home screen similarly to a normal app.
 
-### Updating
+## Updating
 
-Currently, the best way to update is to remove the web app from your home screen, clear your browser's cache, and re-install the web app.
+The app will automatically install updates over time as you reload the site / restart the app.
 
-**Android**
+You can manually update the live site on your device or browser by following these steps:
 
-1. Uninstall the web app if you added it above (just like a normal app).
-2. Go to the live site in your browser.
-3. Click the padlock icon, then Site Settings. Then, click the "Clear and reset" button.
-4. Refresh the page. You can then reinstall using the above instructions if you wish.
-
-**iOS**
-
-1. Uninstall the web app if you added it above (just like a normal app).
-2. Open the Settings app.
-3. Scroll down and click Safari, then scroll down and click "Clear History and Website Data". *Doing this will close all currently-open tabs in Safari*. Confirm by clicking "Clear History and Data".
-4. You can then reinstall using the above instructions if you wish.
+1. Open the settings menu on the site (⚙ icon at top) and select "Check for App Updates".
+2. If an update is available, after a few seconds a green update message will appear at the top of the site. To install the update, select "Update App".
 
 ## Development
 
