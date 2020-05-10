@@ -13,14 +13,14 @@
           <div class="delete" v-if="showLocationSettings" @click.stop="removeLocation(location)">x</div>
         </div>
       </div>
-      <div class="settings btn" @click="toggleLocationSettings">⚙</div>
+      <div class="btn" @click="toggleLocationSettings">⚙</div>
     </div>
     <div class="add-location" v-if="showLocationSettings">
       Enter ZIP Code:
       <input type="number" @keypress.enter="addLocationWithZIP" v-model="zip" />
       <div @click="addLocationWithZIP" class="btn">Submit</div>
       <div @click="addLocationWithGPS" class="btn">Use GPS Instead</div>
-      <div>
+      <div class="settings">
         <div class="btn" @click="reload">Check for App Updates</div>
         <div class="btn" @click="toggleDark">Toggle Dark Mode</div>
       </div>
@@ -119,6 +119,7 @@ export default {
   display: none;
 }
 .add-location {
+  margin-top: 8px;
   line-height: 32px;
 }
 .btn {
@@ -153,5 +154,13 @@ export default {
   height: 20px;
   font-size: 16px;
   line-height: 16px;
+}
+.settings {
+  margin-top: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid black;
+}
+.dark .settings {
+  border-bottom: 1px solid white;
 }
 </style>
