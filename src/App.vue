@@ -102,6 +102,11 @@ export default {
       location.reload();
     }
   },
+  created() {
+    if (this.$store.state.dark) {
+      document.body.classList.add('dark');
+    }
+  },
   mounted() {
     const location = this.$store.state.currentLocation;
     if (location && Object.keys(location).length > 0) {
@@ -111,11 +116,26 @@ export default {
     setInterval(() => {
       this.lastUpdated = this.time.fromNow();
     }, 10 * 1000);
+  },
+  destroyed() {
+    if (this.$store.state.dark) {
+      document.body.classList.remove('dark');
+    }
   }
 };
 </script>
 
 <style>
+.dark, .dark * {
+  background-color: black;
+  color: white;
+}
+.temp, .btn {
+  border: 1px solid black;
+}
+.dark .temp, .dark .btn {
+  border: 1px solid white;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

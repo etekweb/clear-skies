@@ -137,7 +137,6 @@ export default {
   text-align: right;
 }
 .timeRow .temp {
-  border: 1px solid black;
   border-radius: 4px;
 }
 .timeRow .forecast {

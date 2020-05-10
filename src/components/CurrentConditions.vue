@@ -1,7 +1,7 @@
 <template>
   <div class="current-conditions">
     <!-- {{data}} -->
-    <div class="temp">{{Math.round(data.temp)}}℉</div>
+    <div class="temp border">{{Math.round(data.temp)}}℉</div>
     <span>{{data.weather ? data.weather[0].main : ''}}</span>
   </div>
 </template>
@@ -25,7 +25,6 @@ export default {
   font-size: 20px;
   width: 50px;
   height: 30px;
-  border: 1px solid black;
   border-radius: 4px;
   display:flex;
   align-items: center;

@@ -13,6 +13,7 @@ export default new Vuex.Store({
     locations: [],
     currentLocation: {},
     updateOnRestart: false,
+    dark: false
   },
   mutations: {
     addLocation(state, payload) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     notUpdated(state) {
       state.updateOnRestart = false;
+    },
+    toggleDark(state) {
+      state.dark = !state.dark;
     }
   },
   actions: {

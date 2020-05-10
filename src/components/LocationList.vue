@@ -22,6 +22,7 @@
       <div @click="addLocationWithGPS" class="btn">Use GPS Instead</div>
       <div>
         <div class="btn" @click="reload">Check for App Updates</div>
+        <div class="btn" @click="toggleDark">Toggle Dark Mode</div>
       </div>
     </div>
   </div>
@@ -83,6 +84,15 @@ export default {
     },
     reload() {
       location.reload();
+    },
+    toggleDark() {
+      this.$store.commit('toggleDark');
+      if (this.$store.state.dark) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      this.toggleLocationSettings();
     }
   },
   mounted() {
@@ -114,7 +124,6 @@ export default {
 .btn {
   /* height: 50px; */
   display: inline;
-  border: 1px solid black;
   text-align: center;
   /* display: table-cell;
   vertical-align: middle; */
