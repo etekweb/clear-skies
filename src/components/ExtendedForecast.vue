@@ -119,8 +119,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 80%;
   margin-bottom: 30px;
+  min-width: 430px;
 }
 .timeRow {
   display: grid;
