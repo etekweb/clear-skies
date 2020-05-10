@@ -46,8 +46,15 @@ export default {
         location.name = res.city + ", " + res.state;
         location.lat = res.latitude;
         location.long = res.longitude;
-        this.$store.commit("addLocation", location);
-        this.$emit("setLocation", location);
+        const locIndex = this.$store.state.locations.findIndex(
+          obj => obj.name === location.name
+        );
+        if (locIndex !== -1) {
+          this.$store.commit('setCurrentLocation', this.$store.state.locations[locIndex]);
+        } else {
+          this.$store.commit("addLocation", location);
+          this.$emit("setLocation", location);
+        }
         this.zip = "";
         document.activeElement.blur();
         this.toggleLocationSettings();
@@ -60,16 +67,17 @@ export default {
       const location = {};
       location.name = "Current Location";
       location.useGPS = true;
+      const locIndex = this.$store.state.locations.findIndex(
+        obj => obj.name === location.name
+      );
       // Only add if GPS is not already added
-      if (
-        this.$store.state.locations.findIndex(
-          obj => obj.name === location.name
-        ) === -1
-      ) {
+      if (locIndex !== -1) {
+        this.$store.commit('setCurrentLocation', this.$store.state.locations[locIndex]);
+      } else {
         this.$store.commit("addLocation", location);
         this.$emit("setLocation", location);
-        this.toggleLocationSettings();
       }
+      this.toggleLocationSettings();
     },
     removeLocation(location) {
       this.$store.commit("removeLocation", location);
