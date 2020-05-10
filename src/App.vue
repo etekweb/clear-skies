@@ -136,6 +136,10 @@ export default {
 .dark .temp, .dark .btn {
   border: 1px solid white;
 }
+.dark .btn.selected {
+  background-color: white;
+  color: black;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

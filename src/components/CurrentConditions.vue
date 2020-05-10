@@ -1,7 +1,8 @@
 <template>
   <div class="current-conditions">
     <!-- {{data}} -->
-    <div class="temp border">{{Math.round(data.temp)}}℉</div>
+    <div v-if="data.temp" class="temp border">{{Math.round(data.temp)}}℉</div>
+    <span v-else>Loading...</span>
     <span>{{data.weather ? data.weather[0].main : ''}}</span>
   </div>
 </template>

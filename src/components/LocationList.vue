@@ -135,7 +135,9 @@ export default {
   position: relative;
 }
 .btn.selected {
-  text-decoration: underline;
+  font-weight: bold;
+  background-color: black;
+  color: white;
 }
 .settings.btn {
   font-size: 16px;
